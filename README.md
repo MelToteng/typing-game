@@ -15,6 +15,10 @@ A fun, interactive typing game built with vanilla JavaScript and HTML5 Canvas. T
 
 ---
 
+## 🔗 Live Demo
+
+Play the game here: [https://meltoteng.github.io/typing-game/]
+
 ## 🚀 Getting Started
 
 ### Run locally
