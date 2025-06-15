@@ -7,7 +7,7 @@ A fun, interactive typing game built with vanilla JavaScript and HTML5 Canvas. T
 ## 🎮 Features
 
 - Dynamic falling letter bubbles with colorful gradients.
-- Smooth animations and sound effects for popping, missing, and game over.
+- Smooth animations and sound effects(to be implemented) for popping, missing, and game over.
 - Score, level, lives, and missed counters updated in real time.
 - Game Over and Pause panels with leaderboard and name input.
 - Local leaderboard saved in `localStorage`.
