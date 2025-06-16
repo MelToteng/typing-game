@@ -15,6 +15,16 @@ A fun, interactive typing game built with vanilla JavaScript and HTML5 Canvas. T
 
 ---
 
+## 🤖 Generative AI Contribution
+
+⚠ Note: Generative AI (OpenAI’s ChatGPT-4o and Claude) was used to assist with:
+- UI/UX design concepts
+- Game over panel design
+- Leaderboard layout and color scheme
+- Code refactoring suggestions and optimizations
+
+All code has been human-reviewed and tested.
+
 ## 🔗 Live Demo
 
 Play the game here: [https://meltoteng.github.io/typing-game/]
