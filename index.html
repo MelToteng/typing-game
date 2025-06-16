@@ -1,161 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>typing-game</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        background: #000;
+        height: 100%;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Typing Game</title>
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: #000;
-      height: 100%;
-    }
+      canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
 
-    canvas {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+      #ui {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: center;
+        color: #fff;
+        font-size: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 5;
+      }
 
-    #ui {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
-      align-items: center;
-      color: #fff;
-      font-size: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 5;
-    }
-
-    #ui button {
-      margin-left: 20px;
-      padding: 5px 10px;
-      font-size: 16px;
-    }
+      #ui button {
+        margin-left: 20px;
+        padding: 5px 10px;
+        font-size: 16px;
+      }
 
       #statsPanel {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 24px;
-      background: rgba(59, 58, 58, 0.7);
-      text-align: center;
-      padding: 20px;
-      border-radius: 10px;
-      border-color: white;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      z-index: 10;
-      border-radius: 10px;
-    }
-  
-    #scoreHistory {
-      margin-top: 10px;
-      font-size: 16px;
-      max-height: 200px;
-      overflow-y: auto;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 5px;
-      width: 100%;
-      text-align: left;
-    }
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        background: rgba(59, 58, 58, 0.7);
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        border-color: white;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        z-index: 10;
+        border-radius: 10px;
+      }
+
+      #scoreHistory {
+        margin-top: 10px;
+        font-size: 16px;
+        max-height: 200px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        text-align: left;
+      }
 
       #playerNameInput {
-      font-size: 16px;
-      padding: 5px;
-    }
+        font-size: 16px;
+        padding: 5px;
+      }
 
-    #pauseScoreHistory {
-      position: absolute;
-      top: 80px;
-      left: 10px;
-      width: 300px;
-      max-height: 200px;
-      overflow-y: auto;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 5px;
-      display: none;
-      z-index: 6;
-    }
+      #pauseScoreHistory {
+        position: absolute;
+        top: 80px;
+        left: 10px;
+        width: 300px;
+        max-height: 200px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+        z-index: 6;
+      }
 
-    #stats-panel {
-      background: #222; 
-      color: white; 
-      padding: 30px; 
-      border-radius: 12px; 
-      max-width: 600px; 
-      margin: auto; 
-      text-align: center; 
-      font-family: sans-serif; 
-      box-shadow: 0 0 20px rgba(0,0,0,0.8)
-    }
+      #stats-panel {
+        background: #222;
+        color: white;
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 600px;
+        margin: auto;
+        text-align: center;
+        font-family: sans-serif;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      }
 
-    #stats-panel h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
+      #stats-panel h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
 
-<body>
-  <canvas id="gameCanvas"></canvas>
-  <div id="ui">
-    <span>Score: <span id="score">0</span></span>
-    <span>Level: <span id="level">1</span></span>
-    <span>Lives: <span id="lives">3</span></span>
-    <span>Missed: <span id="missed">0</span></span>
-    <button id="pauseButton" onclick="togglePause()">Pause</button>
-    <button id="endGameButton" onclick="endGame()">Quit</button>
-  </div>
+      .btn {
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .blue-btn {
+        background-color: #4459e5;
+        margin-bottom: 10px;
+      }
 
-  <!-- <div id="pauseScoreHistory" class="stats-panel">
+      .red-btn {
+        background-color: #f44336;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui">
+      <span>Score: <span id="score">0</span></span>
+      <span>Level: <span id="level">1</span></span>
+      <span>Lives: <span id="lives">3</span></span>
+      <span>Missed: <span id="missed">0</span></span>
+      <button id="pauseButton" class="btn blue-btn" onclick="togglePause()">
+        Pause
+      </button>
+      <button id="endGameButton" class="btn red-btn" onclick="endGame()">
+        Quit
+      </button>
+    </div>
+
+    <!-- <div id="pauseScoreHistory" class="stats-panel">
     <h1>Pause Menu</h1>
     <h2 style="margin-top: 30px;">Leaderboard</h2>
     <ul style="list-style: none; padding: 0;" id="scoreHistory">
     </ul>
   </div> -->
 
-  <div id="statsPanel" class="stats-panel">
-  <h1 id="statsTitle">Game Over!</h1>
+    <div id="statsPanel" class="stats-panel">
+      <h1 id="statsTitle">Game Over!</h1>
 
-  <p style="font-size: 1.2em;">Your Score: <strong id="gameOverScore">490</strong></p>
+      <p style="font-size: 1.2em">
+        Your Score: <strong id="gameOverScore">490</strong>
+      </p>
 
-  <input type="text" id="playerNameInput" placeholder="Enter your name..." style="padding: 10px; width: 80%; margin-top: 15px; font-size: 1em; border-radius: 6px; border: none;" />
+      <input
+        type="text"
+        id="playerNameInput"
+        placeholder="Enter your name..."
+        style="
+          padding: 10px;
+          width: 80%;
+          margin-top: 15px;
+          font-size: 1em;
+          border-radius: 6px;
+          border: none;
+        "
+      />
 
-  <div style="margin-top: 15px;">
-    <button style="padding: 10px 20px; margin: 5px; border: none; border-radius: 6px; background-color: #4459e5; color: white; font-weight: bold;" onclick="saveScore()">Save Score</button>
-    <button style="padding: 10px 20px; margin: 5px; border: none; border-radius: 6px; background-color: #f44336; color: white; font-weight: bold;" onclick="startNewGame()">New Game</button>
-  </div>
+      <div style="margin-top: 15px">
+        <button id="saveButton" class="btn blue-btn" onclick="saveScore()">
+          Save Score
+        </button>
+        <button class="btn red-btn" onclick="startNewGame()">New Game</button>
+      </div>
 
-  <h2 style="margin-top: 30px;">Leaderboard</h2>
-  <ul style="list-style: none; padding: 0;" id="scoreHistory">
-    <!-- Scores will be dynamically added here -->
-    <!-- <li style="margin: 5px 0; padding: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 6px;">No scores yet</li>    -->
-  </ul>
-</div>
+      <h2 style="margin-top: 30px">Leaderboard</h2>
+      <ul style="list-style: none; padding: 0" id="scoreHistory">
+        <!-- Scores will be dynamically added here -->
+        <!-- <li style="margin: 5px 0; padding: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 6px;">No scores yet</li>    -->
+      </ul>
+    </div>
 
-  <!-- <div id="statsPanel">
+    <!-- <div id="statsPanel">
     <h1>Game Over!</h1>
     <label>Enter your name: <input type="text" id="playerNameInput"></label>
       <button onclick="saveScore()">Save Score</button>
@@ -163,297 +200,318 @@
     <div id="scoreHistory" style="display: none;"></div>
   </div> -->
 
-  <audio id="popSound" src=""></audio>
-  <audio id="missSound" src=""></audio>
-  <audio id="gameOverSound" src=""></audio>
+    <audio id="popSound" src=""></audio>
+    <audio id="missSound" src=""></audio>
+    <audio id="gameOverSound" src=""></audio>
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-    const gameMargin = 100;
-    const bottomMargin = 50;
-    const gameWidth = canvas.width - gameMargin * 2;
-    const gameHeight = canvas.height - gameMargin - bottomMargin;
+      const gameMargin = 100;
+      const bottomMargin = 50;
+      const gameWidth = canvas.width - gameMargin * 2;
+      const gameHeight = canvas.height - gameMargin - bottomMargin;
 
-    const scoreEl = document.getElementById("score");
-    const levelEl = document.getElementById("level");
-    const livesEl = document.getElementById("lives");
-    const missedEl = document.getElementById("missed");
-    const popSound = document.getElementById("popSound");
-    const missSound = document.getElementById("missSound");
-    const gameOverSound = document.getElementById("gameOverSound");
-    const statsPanel = document.getElementById("statsPanel");
-    const playerNameInput = document.getElementById("playerNameInput");
-    const scoreHistory = document.getElementById("scoreHistory");
+      const scoreEl = document.getElementById("score");
+      const levelEl = document.getElementById("level");
+      const livesEl = document.getElementById("lives");
+      const missedEl = document.getElementById("missed");
+      const popSound = document.getElementById("popSound");
+      const missSound = document.getElementById("missSound");
+      const gameOverSound = document.getElementById("gameOverSound");
+      const statsPanel = document.getElementById("statsPanel");
+      const playerNameInput = document.getElementById("playerNameInput");
+      const scoreHistory = document.getElementById("scoreHistory");
 
-    let score = 0;
-    let level = 1;
-    let lives = 3;
-    let missed = 0;
-    let letters = [];
-    let explosions = [];
-    let isPaused = false;
-    let isGameOver = false;
+      let score = 0;
+      let level = 1;
+      let lives = 3;
+      let missed = 0;
+      let letters = [];
+      let explosions = [];
+      let isPaused = false;
+      let isGameOver = false;
 
-    const bubbleColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+      const bubbleColors = [
+        "#FF6384",
+        "#36A2EB",
+        "#FFCE56",
+        "#4BC0C0",
+        "#9966FF",
+      ];
 
-    class Letter {
-      constructor(char, x, y, speed) {
-        this.char = char;
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.radius = 60;
-        this.color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+      class Letter {
+        constructor(char, x, y, speed) {
+          this.char = char;
+          this.x = x;
+          this.y = y;
+          this.speed = speed;
+          this.radius = 60;
+          this.color =
+            bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+        }
+
+        draw() {
+          let gradient = ctx.createRadialGradient(
+            this.x,
+            this.y,
+            5,
+            this.x,
+            this.y,
+            this.radius
+          );
+          gradient.addColorStop(0, "#fff");
+          gradient.addColorStop(0.5, this.color);
+          gradient.addColorStop(1, "#000");
+
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = gradient;
+          ctx.fill();
+          ctx.closePath();
+
+          ctx.fillStyle = "black";
+          ctx.font = "28px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(this.char, this.x, this.y);
+        }
+
+        update() {
+          this.y += this.speed;
+        }
       }
 
-      draw() {
-        let gradient = ctx.createRadialGradient(this.x, this.y, 5, this.x, this.y, this.radius);
-        gradient.addColorStop(0, '#fff');
-        gradient.addColorStop(0.5, this.color);
-        gradient.addColorStop(1, '#000');
+      class Explosion {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.radius = 10;
+          this.alpha = 1.0;
+        }
 
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-        ctx.closePath();
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+          ctx.fill();
+          ctx.closePath();
+        }
 
-        ctx.fillStyle = "black";
-        ctx.font = "28px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(this.char, this.x, this.y);
+        update() {
+          this.radius += 3;
+          this.alpha -= 0.05;
+        }
       }
 
-      update() {
-        this.y += this.speed;
-      }
-    }
-
-    class Explosion {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = 10;
-        this.alpha = 1.0;
+      function drawGameArea() {
+        ctx.strokeStyle = "#ffffff88";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(gameMargin, gameMargin, gameWidth, gameHeight);
       }
 
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
-        ctx.fill();
-        ctx.closePath();
+      function spawnLetter() {
+        if (isPaused || isGameOver) return;
+        const char = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        const radius = 60;
+        const x =
+          gameMargin + radius + Math.random() * (gameWidth - radius * 2);
+        const y = gameMargin - radius;
+        const speed = 1 + level * 0.5;
+        letters.push(new Letter(char, x, y, speed));
       }
 
-      update() {
-        this.radius += 3;
-        this.alpha -= 0.05;
-      }
-    }
-
-    function drawGameArea() {
-      ctx.strokeStyle = '#ffffff88';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(gameMargin, gameMargin, gameWidth, gameHeight);
-    }
-
-    function spawnLetter() {
-      if (isPaused || isGameOver) return;
-      const char = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      const radius = 60;
-      const x = gameMargin + radius + Math.random() * (gameWidth - radius * 2);
-      const y = gameMargin - radius;
-      const speed = 1 + level * 0.5;
-      letters.push(new Letter(char, x, y, speed));
-    }
-
-    function updateLetters() {
-      for (let i = letters.length - 1; i >= 0; i--) {
-        letters[i].update();
-        if (letters[i].y + letters[i].radius > gameMargin + gameHeight) {
-          letters.splice(i, 1);
-          missed++;
-          missedEl.textContent = missed;
-          missSound.currentTime = 0;
-          missSound.play();
-          if (missed >= 10) {
-            endGame();
+      function updateLetters() {
+        for (let i = letters.length - 1; i >= 0; i--) {
+          letters[i].update();
+          if (letters[i].y + letters[i].radius > gameMargin + gameHeight) {
+            letters.splice(i, 1);
+            missed++;
+            missedEl.textContent = missed;
+            missSound.currentTime = 0;
+            missSound.play();
+            if (missed >= 10) {
+              endGame();
+            }
           }
         }
       }
-    }
 
-    function drawExplosions() {
-      for (let i = explosions.length - 1; i >= 0; i--) {
-        explosions[i].update();
-        explosions[i].draw();
-        if (explosions[i].alpha <= 0) {
-          explosions.splice(i, 1);
+      function drawExplosions() {
+        for (let i = explosions.length - 1; i >= 0; i--) {
+          explosions[i].update();
+          explosions[i].draw();
+          if (explosions[i].alpha <= 0) {
+            explosions.splice(i, 1);
+          }
         }
       }
-    }
 
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawGameArea();
-      for (const letter of letters) {
-        letter.draw();
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawGameArea();
+        for (const letter of letters) {
+          letter.draw();
+        }
+        drawExplosions();
       }
-      drawExplosions();
-    }
 
-    function gameLoop() {
-      if (!isPaused && !isGameOver) {
-        updateLetters();
-        draw();
+      function gameLoop() {
+        if (!isPaused && !isGameOver) {
+          updateLetters();
+          draw();
+        }
+        requestAnimationFrame(gameLoop);
       }
-      requestAnimationFrame(gameLoop);
-    }
 
-    function togglePause() {
-      if (typeof isPaused === 'undefined') {
-        window.isPaused = false;
+      function togglePause() {
+        if (typeof isPaused === "undefined") {
+          window.isPaused = false;
+        }
+        isPaused = !isPaused;
+        const pauseHistory = document.getElementById("statsPanel");
+        const saveButton = document.getElementById("saveButton");
+        const playerNameInput = document.getElementById("playerNameInput");
+        //const scoreHistory = localStorage.getItem('scoreHistory') || 'No score history yet';
+        if (isPaused) {
+          //pauseHistory.innerHTML = scoreHistory;
+          pauseHistory.style.display = "block";
+
+          document.getElementById("gameOverScore").textContent = score;
+
+          statsTitle.textContent = "Paused!";
+          saveButton.style.display = "none";
+          playerNameInput.style.display = "none";
+          //document.getElementById('scoreHistory').style.display = 'none';
+          populateLeaderBoard();
+          pauseButton.textContent = "Resume";
+        } else {
+          pauseHistory.style.display = "none";
+          pauseButton.textContent = "Pause";
+        }
       }
-      isPaused = !isPaused;
-      const pauseHistory = document.getElementById('statsPanel');
-      //const scoreHistory = localStorage.getItem('scoreHistory') || 'No score history yet';
-      if (isPaused) {
-        //pauseHistory.innerHTML = scoreHistory;
-        pauseHistory.style.display = 'block';
 
-        document.getElementById('gameOverScore').textContent = score; 
+      function endGame() {
+        isGameOver = true;
+        isPaused = true;
+        gameOverSound.currentTime = 0;
+        gameOverSound.play();
 
-        statsTitle.textContent = 'Paused!';
-        //document.getElementById('scoreHistory').style.display = 'none';
+        showGameOver();
+      }
+
+      function showGameOver() {
+        statsPanel.style.display = "flex";
+
+        statsTitle.textContent = "Game Over!";
+
+        const saveButton = document.getElementById("saveButton");
+        const playerNameInput = document.getElementById("playerNameInput");
+
+        saveButton.style.display = "block";
+        playerNameInput.style.display = "block";
+
         populateLeaderBoard();
-        pauseButton.textContent = 'Resume';
-      } else {
-        pauseHistory.style.display = 'none';
-        pauseButton.textContent = 'Pause';
-      }
-    }
-
-    function endGame() {
-      isGameOver = true;
-      isPaused = true;
-      gameOverSound.currentTime = 0;
-      gameOverSound.play();
-      
-      showGameOver();
-    }
-
-    function showGameOver() {
-      statsPanel.style.display = 'flex';
-
-      statsTitle.textContent = 'Game Over!';
-
-      populateLeaderBoard();    
-      document.getElementById('gameOverScore').textContent = score;  
-      // document.getElementById('scoreHistory').innerHTML = localStorage.getItem('scoreHistory') || 'No score history yet';
-      document.getElementById('scoreHistory').style.display = 'block';
-    }
-
-    function populateLeaderBoard(){
-      console.log("Populating leaderboard...");
-
-      const scoreHistory=document.getElementById('scoreHistory');
-
-      const scores= JSON.parse(localStorage.getItem('scoreHistory')) || [];
-
-      console.log(scores);
-
-      scoreHistory.innerHTML = ''; // Clear previous scores
-
-      if (scores.length === 0) {
-        scoreHistory.innerHTML = '<li> <strong>No scores yet</strong></li>';
-        return;
+        document.getElementById("gameOverScore").textContent = score;
+        // document.getElementById('scoreHistory').innerHTML = localStorage.getItem('scoreHistory') || 'No score history yet';
+        document.getElementById("scoreHistory").style.display = "block";
       }
 
-      scores.forEach(player => {
+      function populateLeaderBoard() {
+        console.log("Populating leaderboard...");
 
-        const li = document.createElement('li');
-        li.style.background = '#333';
-        li.style.color = 'white';
-        li.style.margin = '5px 0';
-        li.style.padding = '10px';
-        li.style.borderRadius = '8px';
+        const scoreHistory = document.getElementById("scoreHistory");
 
-        li.innerHTML=`
+        const scores = JSON.parse(localStorage.getItem("scoreHistory")) || [];
+
+        console.log(scores);
+
+        scoreHistory.innerHTML = ""; // Clear previous scores
+
+        if (scores.length === 0) {
+          scoreHistory.innerHTML = "<li> <strong>No scores yet</strong></li>";
+          return;
+        }
+
+        scores.forEach((player) => {
+          const li = document.createElement("li");
+          li.style.background = "#333";
+          li.style.color = "white";
+          li.style.margin = "5px 0";
+          li.style.padding = "10px";
+          li.style.borderRadius = "8px";
+
+          li.innerHTML = `
         <strong>${player.name}</strong> -- Score:${player.score} | 
         Level:${player.level} | 
         Missed:${player.missed} | 
         <small>${new Date(player.date).toLocaleDateString()}</small>
         `;
 
-        scoreHistory.appendChild(li);
-        
-      });
-    }
-
-    function saveScore() {
-      const playerName = playerNameInput.value || "Anonymous";
-      const previous = localStorage.getItem("scoreHistory") || [];
-
-      const newEntry = {
-        name: playerName,
-        score: score,
-        level: level,
-        missed: missed,
-        date: new Date().toISOString()
-      };
-
-      if (previous.length === 0) {
-        localStorage.setItem("scoreHistory", JSON.stringify([newEntry]));
-      } else {
-        const previousScores = JSON.parse(previous);
-        previousScores.push(newEntry);
-        localStorage.setItem("scoreHistory", JSON.stringify(previousScores));
+          scoreHistory.appendChild(li);
+        });
       }
 
-      if(isGameOver || isPaused) {
-        populateLeaderBoard();
-      }
-    }
+      function saveScore() {
+        const playerName = playerNameInput.value || "Anonymous";
+        const previous = localStorage.getItem("scoreHistory") || [];
 
-    function startNewGame() {
-      
-      document.location.reload();
-    }
+        const newEntry = {
+          name: playerName,
+          score: score,
+          level: level,
+          missed: missed,
+          date: new Date().toISOString(),
+        };
 
-     document.addEventListener('keydown', function (e) {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        togglePause();
-      }
-    });
+        if (previous.length === 0) {
+          localStorage.setItem("scoreHistory", JSON.stringify([newEntry]));
+        } else {
+          const previousScores = JSON.parse(previous);
+          previousScores.push(newEntry);
+          localStorage.setItem("scoreHistory", JSON.stringify(previousScores));
+        }
 
-    window.addEventListener("keydown", (e) => {
-      const char = e.key.toUpperCase();
-      for (let i = 0; i < letters.length; i++) {
-        if (letters[i].char === char) {
-          const hit = letters.splice(i, 1)[0];
-          explosions.push(new Explosion(hit.x, hit.y));
-          popSound.currentTime = 0;
-          popSound.play();
-          score += 10;
-          scoreEl.textContent = score;
-          if (score % 100 === 0) {
-            level++;
-            levelEl.textContent = level;
-          }
-          return;
+        if (isGameOver || isPaused) {
+          populateLeaderBoard();
         }
       }
-    });
 
-    setInterval(spawnLetter, 1000);
-    gameLoop();
-  </script>
-</body>
+      function startNewGame() {
+        document.location.reload();
+      }
 
+      document.addEventListener("keydown", function (e) {
+        if (e.code === "Space" && e.shiftKey) {
+          e.preventDefault();
+          togglePause();
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        const char = e.key.toUpperCase();
+        for (let i = 0; i < letters.length; i++) {
+          if (letters[i].char === char) {
+            const hit = letters.splice(i, 1)[0];
+            explosions.push(new Explosion(hit.x, hit.y));
+            popSound.currentTime = 0;
+            popSound.play();
+            score += 10;
+            scoreEl.textContent = score;
+            if (score % 100 === 0) {
+              level++;
+              levelEl.textContent = level;
+            }
+            return;
+          }
+        }
+      });
+
+      setInterval(spawnLetter, 1000);
+      gameLoop();
+    </script>
+  </body>
 </html>
