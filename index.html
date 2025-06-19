@@ -496,14 +496,15 @@
                 navigator.userAgent
               );
 
-            if (isMobile) {
                isPaused=true;
+
+            if (isMobile) {
               let msg="Mobile device detected. This game requires a keyboard.";
 
               showWarning(msg);
-            } else {
               
-              isPaused=true;
+            } else {
+
               let msg=`No keyboard detected. This game requires a physical keyboard.<br><br>
                       Press any key to continue...`;
 
