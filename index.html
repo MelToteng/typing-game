@@ -502,7 +502,7 @@
               let msg="Mobile device detected. This game requires a keyboard.";
 
               showWarning(msg);
-              
+
             } else {
 
               let msg=`No keyboard detected. This game requires a physical keyboard.<br><br>
@@ -523,8 +523,21 @@
         }
       });
 
+      
+      let keyboardDetected = false;
+      let keyboardConfirmed = false;
+
       window.addEventListener("keydown", (e) => {
         const char = e.key.toUpperCase();
+
+         keyboardDetected = true;
+
+        if (!keyboardConfirmed && isPaused) {
+          keyboardConfirmed = true;
+                    
+          startNewGame();
+        }
+
         for (let i = 0; i < letters.length; i++) {
           if (letters[i].char === char) {
             const hit = letters.splice(i, 1)[0];
@@ -539,17 +552,6 @@
             }
             return;
           }
-        }
-      });
-
-      let keyboardDetected = false;
-      let keyboardConfirmed = false;
-
-      window.addEventListener("keydown", () => {
-        keyboardDetected = true;
-
-        if (!keyboardConfirmed && isPaused) {
-          keyboardConfirmed = true;
         }
       });
 
