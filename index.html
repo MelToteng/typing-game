@@ -204,7 +204,9 @@
     <audio id="missSound" src=""></audio>
     <audio id="gameOverSound" src=""></audio>
 
-    <script>
+    <script type="module">
+      import { customAlert } from "./custom-alert.js";
+
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
@@ -332,7 +334,7 @@
             missed++;
             missedEl.textContent = missed;
             missSound.currentTime = 0;
-            missSound.play();
+            //missSound.play();
             if (missed >= 10) {
               endGame();
             }
@@ -398,7 +400,7 @@
         isGameOver = true;
         isPaused = true;
         gameOverSound.currentTime = 0;
-        gameOverSound.play();
+        //gameOverSound.play();
 
         showGameOver();
       }
@@ -484,6 +486,34 @@
         document.location.reload();
       }
 
+      function checkForKeyboard() {
+        setTimeout(() => {
+          if (!keyboardDetected) {
+
+            // Fallback: check mobile heuristics
+            const isMobile =
+              /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                navigator.userAgent
+              );
+
+            if (isMobile) {
+              let msg="Mobile device detected. This game requires a keyboard.";
+
+              showWarning(msg);
+            } else {
+              
+              isPaused=true;
+              let msg=`No keyboard detected. This game requires a physical keyboard.<br><br>
+                      Press any key to continue...`;
+
+              showWarning(msg);
+            }
+
+            // Optional: redirect or disable game UI
+          }
+        }, 5000);
+      }
+
       document.addEventListener("keydown", function (e) {
         if (e.code === "Space" && e.shiftKey) {
           e.preventDefault();
@@ -498,7 +528,7 @@
             const hit = letters.splice(i, 1)[0];
             explosions.push(new Explosion(hit.x, hit.y));
             popSound.currentTime = 0;
-            popSound.play();
+            // popSound.play();
             score += 10;
             scoreEl.textContent = score;
             if (score % 100 === 0) {
@@ -510,8 +540,35 @@
         }
       });
 
+      let keyboardDetected = false;
+      let keyboardConfirmed = false;
+
+      window.addEventListener("keydown", () => {
+        keyboardDetected = true;
+
+        if (!keyboardConfirmed && isPaused) {
+          keyboardConfirmed = true;
+        }
+      });
+
+      function hideWarning() {
+        customAlert();
+
+        const warning = document.getElementById("warningAlert");
+        if (warning) warning.style.display = "none";
+      };
+
+      function showWarning (msg) {
+        customAlert(msg);
+
+        const warning = document.getElementById("warningAlert");
+        if (warning) warning.style.display = "block";
+      };
+
       setInterval(spawnLetter, 1000);
       gameLoop();
+
+      checkForKeyboard();
     </script>
   </body>
 </html>
